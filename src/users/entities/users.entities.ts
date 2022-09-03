@@ -30,17 +30,17 @@ export class UserEntity {
 
   @Exclude()
   @Column({ type: 'varchar', select: false })
-  password: string;
+  password?: string;
 
   @Exclude()
   @CreateDateColumn({ select: false })
-  created_at: Date;
+  created_at?: Date;
 
   @Exclude()
   @UpdateDateColumn({ select: false })
-  updated_at: Date;
+  updated_at?: Date;
 
   @Exclude()
   @DeleteDateColumn({ select: false })
-  deleted_at: Date;
+  deleted_at?: Date;
 }
