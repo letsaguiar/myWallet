@@ -1,13 +1,15 @@
 import { Exclude } from 'class-transformer';
-import { IsDecimal, IsNumber, IsString } from 'class-validator';
+import { IsDecimal, IsNumber, IsObject, IsString } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { UserEntity } from '../../users/entities/users.entities';
 
 @Entity('wallets')
 export class WalletEntity {
@@ -30,6 +32,10 @@ export class WalletEntity {
   @IsDecimal()
   @Column({ type: 'money' })
   current_balance: number;
+
+  @IsObject()
+  @ManyToOne(() => UserEntity)
+  user: UserEntity;
 
   @Exclude()
   @CreateDateColumn({ select: false })
