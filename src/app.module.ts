@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TransactionModule } from './transactions/transactions.module';
 import { UserModule } from './users/users.module';
 import { WalletModule } from './wallets/wallets.module';
 
@@ -17,6 +18,7 @@ import { WalletModule } from './wallets/wallets.module';
     }),
     UserModule,
     WalletModule,
+    TransactionModule,
   ],
   controllers: [],
   providers: [],
