@@ -3,7 +3,6 @@ version: "3.9"
 services:
   nestjs:
     build: .
-    container_name: nestjs-template
     volumes:
       - .:/usr/src/app
     ports: 
@@ -13,7 +12,6 @@ services:
     command: "npm run start:dev"
 
   nestjs-postgres:
-    container_name: nestjs-postgres
     image: postgres
     volumes:
       - pg-data:/var/lib/postgresql/data
@@ -24,7 +22,6 @@ services:
     restart: always
 
   nestjs-pgadmin:
-    container_name: nestjs-pgadmin
     image: dpage/pgadmin4
     volumes:
       - pgadmin-data:/var/lib/pgadmin
@@ -33,6 +30,8 @@ services:
     env_file:
       - .env
     restart: always
+    logging:
+      driver: none
 
 volumes:
   pg-data:
