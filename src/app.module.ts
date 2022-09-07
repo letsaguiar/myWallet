@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CCBillModule } from './credit-card-bills/credit-card-bills.module';
 import { CreditCardModule } from './credit-cards/credit-cards.module';
 import { TransactionModule } from './transactions/transactions.module';
 import { UserModule } from './users/users.module';
@@ -21,6 +22,7 @@ import { WalletModule } from './wallets/wallets.module';
     WalletModule,
     TransactionModule,
     CreditCardModule,
+    CCBillModule,
   ],
   controllers: [],
   providers: [],
