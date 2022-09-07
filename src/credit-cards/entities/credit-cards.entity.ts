@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   IsDecimal,
   IsInt,
@@ -5,7 +6,15 @@ import {
   IsObject,
   IsString,
 } from 'class-validator';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { UserEntity } from '../../users/entities/users.entities';
 
 @Entity('credit_cards')
@@ -33,4 +42,16 @@ export class CreditCardEntity {
   @IsInt()
   @Column({ type: 'smallint' })
   payment_day: number;
+
+  @Exclude()
+  @CreateDateColumn({ select: false })
+  created_at?: Date;
+
+  @Exclude()
+  @UpdateDateColumn({ select: false })
+  updated_at?: Date;
+
+  @Exclude()
+  @DeleteDateColumn({ select: false })
+  deleted_at?: Date;
 }

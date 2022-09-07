@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   IsDateString,
   IsDecimal,
@@ -5,7 +6,15 @@ import {
   IsNumber,
   IsObject,
 } from 'class-validator';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { WalletEntity } from '../../wallets/entities/wallets.entities';
 import { TransactionTypes } from './transactions.enum';
 
@@ -30,4 +39,16 @@ export class TransactionEntity {
   @IsObject()
   @ManyToOne(() => WalletEntity)
   wallet: WalletEntity;
+
+  @Exclude()
+  @CreateDateColumn({ select: false })
+  created_at?: Date;
+
+  @Exclude()
+  @UpdateDateColumn({ select: false })
+  updated_at?: Date;
+
+  @Exclude()
+  @DeleteDateColumn({ select: false })
+  deleted_at?: Date;
 }
