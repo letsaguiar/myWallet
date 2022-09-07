@@ -1,5 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CCBillModule } from './credit-card-bills/credit-card-bills.module';
+import { CCTransactionsModule } from './credit-card-transactions/credit-card-transactions.module';
+import { CreditCardModule } from './credit-cards/credit-cards.module';
+import { TransactionModule } from './transactions/transactions.module';
+import { UserModule } from './users/users.module';
+import { WalletModule } from './wallets/wallets.module';
 
 @Module({
   imports: [
@@ -10,9 +16,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [],
+      autoLoadEntities: true,
       synchronize: true,
     }),
+    UserModule,
+    WalletModule,
+    TransactionModule,
+    CreditCardModule,
+    CCBillModule,
+    CCTransactionsModule,
   ],
   controllers: [],
   providers: [],
