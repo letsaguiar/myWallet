@@ -36,7 +36,7 @@ export class UserController implements UserControllerInterface {
   }
 
   @Delete(':user_id')
-  public async deleteUser(@Param() params: UserIdDTO): Promise<UserEntity> {
+  public async deleteUser(@Param() params: UserIdDTO): Promise<void> {
     return this.userService.deleteUser(params.user_id);
   }
 }
