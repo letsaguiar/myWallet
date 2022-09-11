@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateUserDTO, UpdateUserDTO, UserIdDTO } from './entities/users.dto';
+
+import { CreateUserDTO, UpdateUserDTO } from './entities/users.dto';
 import { UserEntity } from './entities/users.entities';
+import { UserServiceInterface } from './entities/users.interface';
 
 @Injectable()
-export class UserService {
+export class UserService implements UserServiceInterface {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
@@ -15,23 +18,20 @@ export class UserService {
     const newUser = this.userRepository.create(user);
     await this.userRepository.save(newUser);
 
-    return this.findUserById({ user_id: newUser.id });
+    return this.getUser(newUser.id);
   }
 
-  public async updateUser(
-    params: UserIdDTO,
-    user: UpdateUserDTO,
-  ): Promise<UserEntity> {
-    await this.userRepository.update(params.user_id, user);
+  public async updateUser(userId: number, user: UpdateUserDTO): Promise<UserEntity> {
+    await this.userRepository.update(userId, user);
 
-    return this.findUserById({ user_id: params.user_id });
+    return this.getUser(userId);
   }
 
-  public async findUserById(params: UserIdDTO): Promise<UserEntity> {
-    return await this.userRepository.findOneBy({ id: params.user_id });
+  public async getUser(userId: number): Promise<UserEntity> {
+    return await this.userRepository.findOneBy({ id: userId });
   }
 
-  public async deleteUser(params: UserIdDTO): Promise<void> {
-    await this.userRepository.softDelete(params.user_id);
+  public async deleteUser(userId: number): Promise<void> {
+    await this.userRepository.softDelete(userId);
   }
 }
