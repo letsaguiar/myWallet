@@ -1,8 +1,9 @@
 import { OmitType, PartialType } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsDecimal, IsInt, IsNotEmpty, IsObject, IsString } from "class-validator";
+import { UserEntity } from "../../users/entities/users.entities";
 
 export class WalletIdDTO {
-  @IsNumber()
+  @IsInt()
   wallet_id: number;
 }
 
@@ -15,13 +16,19 @@ export class CreateWalletDTO {
   @IsNotEmpty()
   description: string;
 
-  @IsNumber()
+  @IsDecimal()
   initial_amount: number;
 
-  @IsNumber()
+  @IsInt()
   user_id: number;
 }
 
-export class UpdateWalletDTO extends PartialType(
-    OmitType(CreateWalletDTO, ['user_id'] as const)
-) {}
+export class UpdateWalletPartialDTO extends PartialType(CreateWalletDTO) {};
+
+export class UpdateWalletFullDTO extends OmitType(UpdateWalletPartialDTO, ['user_id'] as const) {
+  @IsDecimal()
+  current_balance?: number;
+
+  @IsObject()
+  user?: UserEntity;
+}
