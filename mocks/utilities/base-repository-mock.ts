@@ -24,7 +24,7 @@ export class BaseRepositoryMock {
   }
 
   public update(id: number, dto) {
-    const item = this.data[id];
+    const item = this.data[id - 1];
 
     for(const [key, value] of Object.entries(dto)) {
       item[key] = value;
@@ -35,11 +35,11 @@ export class BaseRepositoryMock {
     const [key, value] = Object.entries(criteria)[0];
     const entries = this.data.find(item => item[key] === value);
 
-    return entries[0];
+    return entries;
   }
 
   public softDelete(id: number) {
-    const item = this.data[id];
+    const item = this.data[id - 1];
 
     item.deleted_at = new Date();
   }

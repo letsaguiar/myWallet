@@ -26,11 +26,11 @@ export class WalletEntity {
   description: string;
 
   @IsDecimal()
-  @Column({ type: 'money' })
+  @Column({ type: 'decimal', scale: 2 })
   initial_amount: number;
 
   @IsDecimal()
-  @Column({ type: 'money' })
+  @Column({ type: 'decimal', scale: 2 })
   current_balance: number;
 
   @IsObject()

@@ -1,6 +1,6 @@
 [
     {
-       "id":0,
+       "id":1,
        "first_name":"John",
        "last_name":"Smith",
        "email":"jhon.smith@test.com",
@@ -8,5 +8,16 @@
        "created_at":"2022-09-07 12:37:56.915431",
        "updated_at":"2022-09-07 12:37:56.915431",
        "deleted_at":null
-    }
+    },
+
+    {
+        "id":2,
+        "first_name":"Anne",
+        "last_name":"Smith",
+        "email":"anne.smith@test.com",
+        "password":"123456",
+        "created_at":"2022-09-07 12:37:56.915431",
+        "updated_at":"2022-09-07 12:37:56.915431",
+        "deleted_at":null
+     }
 ]
