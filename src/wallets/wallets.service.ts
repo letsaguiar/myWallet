@@ -38,7 +38,8 @@ export class WalletService implements WalletServiceInterface {
   }
 
   private async buildUpdateWalletFullDTO(walletId: number, partialDTO: UpdateWalletPartialDTO): Promise<UpdateWalletFullDTO> {
-    const fullDTO: UpdateWalletFullDTO = partialDTO;
+    const { user_id, ...rest} = partialDTO;
+    const fullDTO: UpdateWalletFullDTO = rest;
     
     if (partialDTO.initial_amount) {
         const wallet = await this.getWalletByWalletId(walletId);
