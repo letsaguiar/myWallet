@@ -36,7 +36,7 @@ export class WalletController implements WalletControllerInterface {
   }
 
   @Delete(':wallet_id')
-  public async deleteWallet(params: WalletIdDTO): Promise<void> {
+  public async deleteWallet(@Param() params: WalletIdDTO): Promise<void> {
     return this.walletService.deleteWallet(params.wallet_id);
   }
 }
