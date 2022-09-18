@@ -9,6 +9,8 @@ import { WalletServiceInterface } from "./entities/wallets.interface";
 
 import { UserService } from "../users/users.service";
 
+import * as Dinero from 'dinero.js';
+
 @Injectable()
 export class WalletService implements WalletServiceInterface {
   public constructor(
@@ -40,9 +42,15 @@ export class WalletService implements WalletServiceInterface {
     
     if (partialDTO.initial_amount) {
         const wallet = await this.getWalletByWalletId(walletId);
-        const balanceDifference = wallet.initial_amount - partialDTO.initial_amount;
+        
+        const sourceAmount = Dinero({ amount: Number(wallet.initial_amount) });
+        const targetAmount = Dinero({ amount: Number(partialDTO.initial_amount) });
+        const amountDifference = targetAmount.subtract(sourceAmount);
 
-        fullDTO.current_balance = wallet.current_balance + balanceDifference;
+        const sourceBalance = Dinero({ amount: Number(wallet.current_balance) });
+        const targetBalance = sourceBalance.add(amountDifference);
+
+        fullDTO.current_balance = targetBalance.toUnit() * 100;
     }
 
     if (partialDTO.user_id) {
