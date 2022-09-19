@@ -47,20 +47,13 @@ export class TransactionService implements TransactionServiceInterface {
   }
 
   public async updateTransaction(transactionId: number, transaction: UpdateTransactionPartialDTO): Promise<TransactionEntity> {
-    let sourceTransaction, targetTransaction;
     const fullTransactionDTO = await this.buildUpdateTransactionFullDTO(transactionId, transaction);
     
-    try {
-      sourceTransaction = await this.getTransactionByTransactionId(transactionId, { relations: ['wallet']} );
-      await this.transactionRepository.update(transactionId, fullTransactionDTO);
+    const sourceTransaction = await this.getTransactionByTransactionId(transactionId, { relations: ['wallet']} );
+    await this.transactionRepository.update(transactionId, fullTransactionDTO);
       
-      targetTransaction = await this.getTransactionByTransactionId(transactionId, { relations: ['wallet']} );
-      await this.notify('updateTransaction', { sourceTransaction, targetTransaction });
-    }
-    catch {
-      // To do: handle error
-      throw new Error('Something went wrong');
-    }
+    const targetTransaction = await this.getTransactionByTransactionId(transactionId, { relations: ['wallet']} );
+    await this.notify('updateTransaction', { sourceTransaction, targetTransaction });
 
     return this.getTransactionByTransactionId(transactionId);
   }
@@ -80,14 +73,14 @@ export class TransactionService implements TransactionServiceInterface {
     return await this.transactionRepository.findOne({ where: { id: transactionId }, ...options });
   }
 
-  public async getTransactionByWalletId(walletId: number, filters: TransactionFilterParams): Promise<TransactionEntity[]> {
+  public async getTransactionByWalletId(walletId: number, filters?: TransactionFilterParams): Promise<TransactionEntity[]> {
     const queryFilters = this.buildTransactionQueryFilters(filters);
     queryFilters.where = { wallet: { id: walletId }, ...queryFilters.where };
 
     return await this.transactionRepository.find(queryFilters);
   }
     
-  public async getTransactionByUserId(userId: number, filters: TransactionFilterParams): Promise<TransactionEntity[]> {
+  public async getTransactionByUserId(userId: number, filters?: TransactionFilterParams): Promise<TransactionEntity[]> {
     const queryFilters = this.buildTransactionQueryFilters(filters);
     queryFilters.where = { wallet: { user: { id: userId } }, ...queryFilters.where };
 
@@ -96,6 +89,10 @@ export class TransactionService implements TransactionServiceInterface {
 
   private buildTransactionQueryFilters(filters: TransactionFilterParams): FindManyOptions<TransactionEntity> {
     const queryFilters: FindManyOptions<TransactionEntity> = {};
+
+    if (!filters) {
+      return {};
+    }
 
     if (filters.type) {
         queryFilters.where = {

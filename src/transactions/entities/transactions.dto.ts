@@ -11,8 +11,9 @@ export class TransactionIdDTO {
 }
 
 export class CreateTransactionDTO {
+  @IsOptional()
   @IsString()
-  description: string;
+  description?: string;
 
   @IsEnum(TransactionTypes)
   type: TransactionTypes;
@@ -32,25 +33,25 @@ export class CreateTransactionDTO {
 export class UpdateTransactionPartialDTO {
   @IsOptional()
   @IsString()
-  description: string;
+  description?: string;
   
   @IsOptional()
   @IsEnum(TransactionTypes)
-  type: TransactionTypes;
+  type?: TransactionTypes;
   
   @IsOptional()
   @IsDecimal()
-  amount: number;
+  amount?: number;
   
   @IsOptional()
   @Type(() => Date)
   @IsDate()
-  date: Date;
+  date?: Date;
   
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  wallet_id: number;
+  wallet_id?: number;
 }
 
 export class UpdateTransactionFullDTO extends OmitType(UpdateTransactionPartialDTO, ['wallet_id'] as const) {
