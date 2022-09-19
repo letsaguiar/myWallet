@@ -1,3 +1,5 @@
+import { TransactionEntity } from "../../transactions/entities/transactions.entity";
+import { TransactionTypes } from "../../transactions/entities/transactions.enum";
 import { CreateWalletDTO, UpdateWalletPartialDTO, WalletIdDTO, WalletSearchParams } from "./wallets.dto";
 import { WalletEntity } from "./wallets.entities";
 
@@ -14,4 +16,15 @@ export interface WalletServiceInterface {
   getWalletByWalletId(walletId: number): Promise<WalletEntity>;
   getWalletByUserId(userId: number): Promise<WalletEntity[]>;
   deleteWallet(walletId: number): Promise<void>;
+}
+
+export interface WalletUpdateBalanceInterface {
+  wallet_id: number;
+  amount: number;
+  type: TransactionTypes;
+}
+
+export interface WalletUpdateTransactionInterface {
+  source_transaction: TransactionEntity;
+  target_transaction: TransactionEntity;
 }
