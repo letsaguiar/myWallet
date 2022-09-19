@@ -31,16 +31,39 @@ export class BaseRepositoryMock {
     }
   }
 
-  public findOneBy(criteria) {
-    const [key, value] = Object.entries(criteria)[0];
-    const entries = this.data.find(item => item[key] === value);
-
-    return entries;
-  }
-
   public softDelete(id: number) {
     const item = this.data[id - 1];
 
     item.deleted_at = new Date();
   }
+
+  private isMatch(item, filter) {
+    for (const [key, value] of Object.entries(filter)) {
+      
+      if (typeof value === 'object') {
+        return this.isMatch(item[key], value);
+      }
+      
+      if (item[key] !== value) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  public find(criteria) {
+    const whereParams = criteria.where;
+
+    return this.data.filter(item => this.isMatch(item, whereParams));
+  }
+
+  public findOne(criteria) {
+    return this.find(criteria)[0];
+  }
+
+  public findOneBy(criteria) {
+    return this.find({ where: criteria })[0];
+  }
+
 }
