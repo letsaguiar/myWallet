@@ -1,10 +1,5 @@
-import { CreateWalletDTO, UpdateWalletPartialDTO, WalletIdDTO } from "./wallets.dto";
+import { CreateWalletDTO, UpdateWalletPartialDTO, WalletIdDTO, WalletSearchParams } from "./wallets.dto";
 import { WalletEntity } from "./wallets.entities";
-
-export interface WalletSearchParams {
-  wallet_id: number;
-  user_id: number;
-}
 
 export interface WalletControllerInterface {
   createWallet(body: CreateWalletDTO): Promise<WalletEntity>;
