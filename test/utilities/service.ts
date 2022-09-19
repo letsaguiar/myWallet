@@ -1,41 +1,15 @@
+import { serviceDependencies } from "./config";
 import { getRepositoryMock } from "./repository";
 
 class ServiceMockConstructor {
     public main: any;
     private dependencies: any;
 
-    constructor(main) {
+    constructor(serviceName: string) {
+        const { main, dependencies } = serviceDependencies[serviceName];
+
         this.main = new main();
-        this.dependencies = [];
-    }
-
-    public buildDependencies() {
-        const properties = Object.getOwnPropertyNames(this.main);
-
-        for(const property of properties) {
-            this.dependencies.push({
-                name: property,
-                type: this.getDependencyType(property),
-                value: this.getDependencyValue(property),
-            });
-        }
-    }
-
-    private getDependencyType(name: string) {
-        if (name.includes('Repository')) {
-            return 'repository';
-        }
-        else if (name.includes('Service')) {
-            return 'service';
-        }
-    }
-
-    private getDependencyValue(name: string) {
-        const cleanName = name
-            .replace('Repository', '')
-            .replace('Service', '');
-
-        return cleanName + '.json';
+        this.dependencies = dependencies;
     }
 
     public loadDependencies() {
@@ -60,9 +34,8 @@ class ServiceMockConstructor {
     }
 }
 
-export function getServiceMock (service) {
+export function getServiceMock (service: string) {
     const serviceMock = new ServiceMockConstructor(service);
-    serviceMock.buildDependencies();
     serviceMock.loadDependencies();
     serviceMock.assignDependencies();
 
