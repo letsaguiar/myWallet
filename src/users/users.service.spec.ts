@@ -1,40 +1,33 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 import { UserEntity } from "./entities/users.entities";
-
 import { UserService } from "./users.service";
-
-import { UserRepositoryMock } from "../../mocks/users/user-repository-mock";
+import { getRepositoryMock } from "../../test/utilities/get-repository";
 
 describe('UserService', () => {
     let service: UserService;
-    let repository: UserRepositoryMock;
-    
+    let repository: Repository<UserEntity>;
+
     beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
-        providers: [
-            UserService,
-            {
-              provide: getRepositoryToken(UserEntity),
-              useClass: UserRepositoryMock,
-            },
-        ],
+            providers: [
+                UserService,
+                {
+                    provide: getRepositoryToken(UserEntity),
+                    useValue: getRepositoryMock('users/users.json'),
+                }
+            ],
         }).compile();
-    
-        service = module.get<UserService>(UserService);
-        repository = module.get<UserRepositoryMock>(getRepositoryToken(UserEntity));
-    
-        jest.spyOn(repository, 'create');
-        jest.spyOn(repository, 'save');
-        jest.spyOn(repository, 'update');
-        jest.spyOn(repository, 'findOneBy');
-        jest.spyOn(repository, 'softDelete');
+
+        service = module.get(UserService);
+        repository = module.get(getRepositoryToken(UserEntity));
     });
 
     beforeEach(() => {
         jest.clearAllMocks();
-    })
-    
+    });
+
     it('should be defined', () => {
         expect(service).toBeDefined();
     });
