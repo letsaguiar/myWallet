@@ -25,6 +25,6 @@ export interface WalletUpdateBalanceInterface {
 }
 
 export interface WalletUpdateTransactionInterface {
-  source_transaction: TransactionEntity;
-  target_transaction: TransactionEntity;
+  sourceTransaction: TransactionEntity;
+  targetTransaction: TransactionEntity;
 }

@@ -109,11 +109,11 @@ export class WalletService implements WalletServiceInterface {
   }
 
   public async updateTransaction(params: WalletUpdateTransactionInterface): Promise<void> {
-    const { source_transaction, target_transaction } = params;
+    const { sourceTransaction, targetTransaction } = params;
 
     await Promise.all([
-      this.deleteTransaction(source_transaction),
-      this.addTransaction(target_transaction),
+      this.deleteTransaction(sourceTransaction),
+      this.addTransaction(targetTransaction),
     ]);
   }
 }
