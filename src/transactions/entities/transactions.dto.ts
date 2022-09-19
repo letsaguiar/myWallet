@@ -53,10 +53,10 @@ export class UpdateTransactionPartialDTO {
   wallet_id: number;
 }
 
-export class UpdateWalletFullDTO extends OmitType(UpdateTransactionPartialDTO, ['wallet_id'] as const) {
+export class UpdateTransactionFullDTO extends OmitType(UpdateTransactionPartialDTO, ['wallet_id'] as const) {
   @IsOptional()
   @IsObject()
-  wallet: WalletEntity;
+  wallet?: WalletEntity;
 }
 
 export class TransactionSearchParams {
