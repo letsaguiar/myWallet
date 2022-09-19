@@ -4,12 +4,12 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
 import { getRepositoryMock } from "../../test/utilities/get-repository";
-import { getServiceMock } from "../../test/utilities/get-service";
 
 import { WalletService } from "./wallets.service"
 import { UserService } from "../users/users.service";
 
 import { WalletEntity } from "./entities/wallets.entities";
+import { getServiceMock } from "../../test/utilities/get-service";
 
 describe('WalletService', () => {
     let service: WalletService;
@@ -26,9 +26,7 @@ describe('WalletService', () => {
             },
             {
               provide: UserService,
-              useValue: getServiceMock(UserService, {
-                userRepository: getRepositoryMock('users/users.json'),
-              }),
+              useValue: getServiceMock('UserService'),
             },
         ],
         }).compile();
