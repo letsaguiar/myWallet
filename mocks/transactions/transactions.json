@@ -1,0 +1,63 @@
+[
+   {
+      "id":1,
+      "type":"income",
+      "date":"2020-02-08",
+      "amount":100,
+      "description":null,
+      "created_at":"2020-02-08T12:00:00.000Z",
+      "updated_at":"2020-02-08T12:00:00.000Z",
+      "deleted_at":null,
+      "wallet":{
+         "id":1,
+         "name":"Wallet 1",
+         "descriptiom":null,
+         "initial_amount":100,
+         "current_balance":100,
+         "created_at":"2020-01-01 00:00:00",
+         "updated_at":"2020-01-01 00:00:00",
+         "deleted_at":null,
+         "user":{
+            "id":1,
+            "first_name":"John",
+            "last_name":"Smith",
+            "email":"jhon.smith@test.com",
+            "password":"123456",
+            "created_at":"2022-09-07 12:37:56.915431",
+            "updated_at":"2022-09-07 12:37:56.915431",
+            "deleted_at":null
+         }
+      }
+   },
+
+   {
+      "id":2,
+      "type":"expense",
+      "date":"2020-02-09",
+      "amount":100,
+      "description":null,
+      "created_at":"2020-02-08T12:00:00.000Z",
+      "updated_at":"2020-02-08T12:00:00.000Z",
+      "deleted_at":null,
+      "wallet":{
+         "id":1,
+         "name":"Wallet 1",
+         "descriptiom":null,
+         "initial_amount":100,
+         "current_balance":100,
+         "created_at":"2020-01-01 00:00:00",
+         "updated_at":"2020-01-01 00:00:00",
+         "deleted_at":null,
+         "user":{
+            "id":1,
+            "first_name":"John",
+            "last_name":"Smith",
+            "email":"jhon.smith@test.com",
+            "password":"123456",
+            "created_at":"2022-09-07 12:37:56.915431",
+            "updated_at":"2022-09-07 12:37:56.915431",
+            "deleted_at":null
+         }
+      }
+   }
+]
