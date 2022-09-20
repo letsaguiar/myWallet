@@ -7,7 +7,7 @@ import { TransactionTypes } from "./transactions.enum";
 export class TransactionIdDTO {
   @Type(() => Number)
   @IsInt()
-  id: number;
+  transaction_id: number;
 }
 
 export class CreateTransactionDTO {
