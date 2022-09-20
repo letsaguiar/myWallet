@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindManyOptions, LessThanOrEqual, MoreThanOrEqual, Repository } from "typeorm";
+import { FindManyOptions, FindOneOptions, LessThanOrEqual, MoreThanOrEqual, Repository } from "typeorm";
 import { WalletService } from "../wallets/wallets.service";
 import { CreateTransactionDTO, UpdateTransactionPartialDTO, TransactionFilterParams, UpdateTransactionFullDTO } from "./entities/transactions.dto";
 import { TransactionEntity } from "./entities/transactions.entity";
@@ -47,16 +47,22 @@ export class TransactionService implements TransactionServiceInterface {
   }
 
   public async updateTransaction(transactionId: number, transaction: UpdateTransactionPartialDTO): Promise<TransactionEntity> {
-    const sourceTransactions = this.getTransactionByTransactionId(transactionId);
+    let sourceTransaction, targetTransaction;
+    const fullTransactionDTO = await this.buildUpdateTransactionFullDTO(transactionId, transaction);
+    
+    try {
+      sourceTransaction = await this.getTransactionByTransactionId(transactionId, { relations: ['wallet']} );
+      await this.transactionRepository.update(transactionId, fullTransactionDTO);
+      
+      targetTransaction = await this.getTransactionByTransactionId(transactionId, { relations: ['wallet']} );
+      await this.notify('updateTransaction', { sourceTransaction, targetTransaction });
+    }
+    catch {
+      // To do: handle error
+      throw new Error('Something went wrong');
+    }
 
-    const fullTransaction = await this.buildUpdateTransactionFullDTO(transactionId, transaction);
-    await this.transactionRepository.update(transactionId, fullTransaction);
-
-    const targetTransaction = this.getTransactionByTransactionId(transactionId);
-
-    await this.notify('updateTransaction', { sourceTransactions, targetTransaction });
-
-    return targetTransaction;
+    return this.getTransactionByTransactionId(transactionId);
   }
 
   private async buildUpdateTransactionFullDTO(transactionId: number, partialDTO: UpdateTransactionPartialDTO): Promise<UpdateTransactionFullDTO> {
@@ -70,8 +76,8 @@ export class TransactionService implements TransactionServiceInterface {
     return fullDTO;
   }
 
-  public async getTransactionByTransactionId(transactionId: number): Promise<TransactionEntity> {
-    return await this.transactionRepository.findOneBy({ id: transactionId });
+  public async getTransactionByTransactionId(transactionId: number, options?: FindOneOptions<TransactionEntity>): Promise<TransactionEntity> {
+    return await this.transactionRepository.findOne({ where: { id: transactionId }, ...options });
   }
 
   public async getTransactionByWalletId(walletId: number, filters: TransactionFilterParams): Promise<TransactionEntity[]> {
@@ -116,7 +122,7 @@ export class TransactionService implements TransactionServiceInterface {
   }
 
   public async deleteTransaction(transactionId: number): Promise<void> {
-    const deletedTransaction = await this.getTransactionByTransactionId(transactionId);
+    const deletedTransaction = await this.getTransactionByTransactionId(transactionId, { relations: ['wallet'] });
 
     await Promise.all([
       this.transactionRepository.softDelete(transactionId),

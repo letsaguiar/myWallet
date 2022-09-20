@@ -1,6 +1,6 @@
 import { OmitType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsDateString, IsDecimal, IsEnum, IsInt, IsObject, IsOptional, IsString } from "class-validator";
+import { IsDate, IsDateString, IsDecimal, IsEnum, IsInt, IsObject, IsOptional, IsString } from "class-validator";
 import { WalletEntity } from "../../wallets/entities/wallets.entities";
 import { TransactionTypes } from "./transactions.enum";
 
@@ -21,7 +21,7 @@ export class CreateTransactionDTO {
   amount: number;
 
   @Type(() => Date)
-  @IsDateString()
+  @IsDate()
   date: Date;
 
   @Type(() => Number)
@@ -44,8 +44,8 @@ export class UpdateTransactionPartialDTO {
   
   @IsOptional()
   @Type(() => Date)
-  @IsDateString()
-    date: Date;
+  @IsDate()
+  date: Date;
   
   @IsOptional()
   @Type(() => Number)
