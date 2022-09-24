@@ -1,15 +1,20 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { getRepositoryToken } from "@nestjs/typeorm";
-import { UserServiceMock } from "../../mocks/users/user-service-mock";
-import { WalletRepositoryMock } from "../../mocks/wallets/wallet-repository-mock";
-import { UserService } from "../users/users.service";
-import { WalletEntity } from "./entities/wallets.entities";
+import { Repository } from "typeorm";
+
+import { getRepositoryMock } from "../../test/utilities/get-repository";
+import { getServiceMock } from "../../test/utilities/get-service";
+
 import { WalletService } from "./wallets.service"
+import { UserService } from "../users/users.service";
+
+import { WalletEntity } from "./entities/wallets.entities";
 
 describe('WalletService', () => {
     let service: WalletService;
-    let repository: WalletRepositoryMock;
     let userService: UserService;
+    let repository: Repository<WalletEntity>;
     
     beforeAll(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -17,25 +22,21 @@ describe('WalletService', () => {
             WalletService,
             {
               provide: getRepositoryToken(WalletEntity),
-              useClass: WalletRepositoryMock,
+              useValue: getRepositoryMock('wallets/wallets.json'),
             },
             {
               provide: UserService,
-              useClass: UserServiceMock,
+              useValue: getServiceMock(UserService, {
+                userRepository: getRepositoryMock('users/users.json'),
+              }),
             },
         ],
         }).compile();
     
-        service = module.get<WalletService>(WalletService);
-        repository = module.get<WalletRepositoryMock>(getRepositoryToken(WalletEntity));
-        userService = module.get<UserService>(UserService);
+        service = module.get(WalletService);
+        userService = module.get(UserService);
+        repository = module.get(getRepositoryToken(WalletEntity));
     
-        jest.spyOn(repository, 'create');
-        jest.spyOn(repository, 'save');
-        jest.spyOn(repository, 'update');
-        jest.spyOn(repository, 'findOneBy');
-        jest.spyOn(repository, 'findBy');
-        jest.spyOn(repository, 'softDelete');
         jest.spyOn(userService, 'getUser');
     })
 
