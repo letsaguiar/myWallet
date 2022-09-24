@@ -5,6 +5,7 @@ import {
   IsEnum,
   IsNumber,
   IsObject,
+  IsString,
 } from 'class-validator';
 import {
   Column,
@@ -24,12 +25,16 @@ export class TransactionEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @IsString()
+  @Column({ type: 'text' })
+  description: string;
+
   @IsEnum(TransactionTypes)
   @Column({ type: 'varchar' })
   type: TransactionTypes;
 
   @IsDecimal()
-  @Column({ type: 'money' })
+  @Column({ type: 'decimal', scale: 2 })
   amount: number;
 
   @IsDateString()

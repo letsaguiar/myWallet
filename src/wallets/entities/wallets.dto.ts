@@ -57,3 +57,15 @@ export class UpdateWalletFullDTO extends OmitType(UpdateWalletPartialDTO, ['user
   @IsObject()
   user?: UserEntity;
 }
+
+export class WalletSearchParams {
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  wallet_id?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  user_id?: number;
+}

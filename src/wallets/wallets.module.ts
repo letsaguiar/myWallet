@@ -13,6 +13,7 @@ import { UserModule } from '../users/users.module';
     TypeOrmModule.forFeature([WalletEntity]),
     UserModule
   ],
+  exports: [ WalletService ],
   providers: [WalletService],
   controllers: [WalletController]
 })

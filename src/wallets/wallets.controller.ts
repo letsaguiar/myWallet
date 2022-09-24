@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 
-import { CreateWalletDTO, WalletIdDTO, UpdateWalletPartialDTO } from "./entities/wallets.dto";
+import { CreateWalletDTO, WalletIdDTO, UpdateWalletPartialDTO, WalletSearchParams } from "./entities/wallets.dto";
 import { WalletEntity } from "./entities/wallets.entities";
-import { WalletControllerInterface, WalletSearchParams } from "./entities/wallets.interface";
+import { WalletControllerInterface } from "./entities/wallets.interface";
 
 import { WalletService } from "./wallets.service";
 
