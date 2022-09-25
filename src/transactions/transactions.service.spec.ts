@@ -1,12 +1,18 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { getRepositoryMock } from "../../test/utilities/get-repository";
-import { getServiceMock } from "../../test/utilities/get-service";
+
 import { WalletService } from "../wallets/wallets.service";
-import { TransactionEntity } from "./entities/transactions.entity";
-import { TransactionTypes } from "./entities/transactions.enum";
 import { TransactionService } from "./transactions.service";
+
+import { TransactionTypes } from "./entities/transactions.enum";
+
+import { TransactionEntity } from "./entities/transactions.entity";
+
+import { getRepositoryMock } from "../../test/utilities/repository";
+import { getServiceMock } from "../../test/utilities/service";
+
 
 describe('TransactionService', () => {
     let service: TransactionService;

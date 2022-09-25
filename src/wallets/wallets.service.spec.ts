@@ -3,13 +3,13 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
-import { getRepositoryMock } from "../../test/utilities/get-repository";
-
 import { WalletService } from "./wallets.service"
 import { UserService } from "../users/users.service";
 
 import { WalletEntity } from "./entities/wallets.entities";
-import { getServiceMock } from "../../test/utilities/get-service";
+
+import { getRepositoryMock } from "../../test/utilities/repository";
+import { getServiceMock } from "../../test/utilities/service";
 
 describe('WalletService', () => {
     let service: WalletService;

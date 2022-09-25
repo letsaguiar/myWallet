@@ -1,16 +1,24 @@
-import { generateId } from "./generate-id";
-import { getMock } from "./get-mock";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 class BaseRepositoryMock {
     private data: any[];
 
     constructor(path: string) {
-        this.data = getMock(path);
+        this.data = this.getData(path);
+    }
+
+    private getData(path: string) {
+        return JSON.parse(readFileSync(join(process.cwd(), `mocks/${path}`), "utf8"));
+    }
+
+    private generateId() {
+        return this.data.length + 1;
     }
 
     public create = jest.fn((dto) => {
         return {
-            id: generateId(this.data),
+            id: this.generateId(),
             created_at: new Date(),
             updated_at: new Date(),
             deleted_at: null,

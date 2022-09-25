@@ -1,9 +1,8 @@
+import { TransactionService } from "../../src/transactions/transactions.service";
 import { UserService } from "../../src/users/users.service";
 import { WalletService } from "../../src/wallets/wallets.service";
-import { getRepositoryMock } from "./get-repository";
-import { getServiceMock } from "./get-service";
 
-const serviceDependencies = {
+export const serviceDependencies = {
     UserService: {
         main: UserService,
         dependencies: [
@@ -26,26 +25,22 @@ const serviceDependencies = {
                 name: 'userService',
                 type: 'service',
                 value: 'UserService',
-            },
+            }
         ]
     },
-};
-
-export function getServiceDependencies (serviceName: string) {
-    const { main, dependencies } = serviceDependencies[serviceName];
-
-    for (const dependency of dependencies) {
-
-        switch (dependency.type) {
-            case 'repository':
-                dependency.value = getRepositoryMock(dependency.value);
-                break;
-            case 'service':
-                dependency.value = getServiceMock(dependency.value);
-                break;
-        }
-        
+    TransactionService: {
+        main: TransactionService,
+        dependencies: [
+            {
+                name: 'transactionRepository',
+                type: 'repository',
+                value: 'transactions/transactions.json',
+            },
+            {
+                name: 'walletService',
+                type: 'service',
+                value: 'WalletService',
+            }
+        ]
     }
-
-    return { main, dependencies };
 }
