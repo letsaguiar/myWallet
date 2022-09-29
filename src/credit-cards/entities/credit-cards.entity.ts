@@ -32,7 +32,7 @@ export class CreditCardEntity {
   name: string;
 
   @IsDecimal()
-  @Column({ type: 'money' })
+  @Column({ type: 'decimal', scale: 2 })
   limit: number;
 
   @IsInt()
